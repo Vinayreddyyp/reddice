@@ -1,9 +1,15 @@
 import express from 'express';
 import path from 'path';
 
-let app = express();
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackConfig from '../webpack.config.dev';
 
-app.get('/',(req,res) => {
+
+let app = express();
+app.use(webpackMiddleware(webpack(webpackConfig)));
+
+app.get('/*',(req,res) => {
 	res.sendfile(path.join(__dirname, './index.html'))
-})
+});
 app.listen(4000,() => console.log('listen to 4000 port'));
